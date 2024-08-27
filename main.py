@@ -27,6 +27,7 @@ API_KEY_ENV_VAR_NAME = "SIMIAN_API_KEY"
 apps_dir = "apps"
 
 app = FastAPI()
+router = APIRouter()
 
 # If API Key authentication is enabled add dependency
 if API_KEY_AUTH_ENABLED:
@@ -49,7 +50,10 @@ for simian_app in simian_apps:
     simian_app_namespace = apps_dir + "." + simian_app_module
 
     # The app is served on the module name path on backend server
-    @app.post(simian_app_slug, response_class=JSONResponse, dependencies=dependencies)
+    @router.post(simian_app_slug, response_class=JSONResponse, dependencies=dependencies)
     def route_app_requests(request_data: list = Body()) -> dict:
         """Route requests to the Simian App code and return the response."""
         return entry_point_deploy(simian_app_namespace, request_data)
+
+
+app.include_router(router)
