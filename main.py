@@ -2,7 +2,7 @@ import glob
 from os import getenv
 from os import path
 
-from fastapi import Body, FastAPI, Depends, HTTPException, status
+from fastapi import Body, FastAPI, APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 
