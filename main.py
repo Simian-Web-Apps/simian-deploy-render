@@ -42,6 +42,14 @@ if API_KEY_AUTH_ENABLED:
 else:
     dependencies = []
 
+
+def create_endpoint(simian_app_namespace: str):
+    def endpoint(request_data: list = Body()) -> dict:
+        return entry_point_deploy(simian_app_namespace, request_data)
+
+    return endpoint
+
+
 # Loop over the .py files in ./apps/ assuming each is a simian app module
 simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
 for simian_app in simian_apps:
@@ -49,11 +57,10 @@ for simian_app in simian_apps:
     simian_app_slug = "/" + simian_app_module.replace("_", "-")
     simian_app_namespace = apps_dir + "." + simian_app_module
 
-    # The app is served on the module name path on backend server
-    @router.post(simian_app_slug, response_class=JSONResponse, dependencies=dependencies)
-    def route_app_requests(request_data: list = Body()) -> dict:
-        """Route requests to the Simian App code and return the response."""
-        return entry_point_deploy(simian_app_namespace, request_data)
-
-
-app.include_router(router)
+    app.add_api_route(
+        simian_app_slug,
+        create_endpoint(simian_app_namespace),
+        methods=["POST"],
+        response_class=JSONResponse,
+        dependencies=dependencies,
+    )
