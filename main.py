@@ -1,20 +1,21 @@
 import glob
 from os import getenv
-from os import path 
+from os import path
 
 from fastapi import Body, FastAPI, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 
 from simian.entrypoint import entry_point_deploy
+import apps
 
-# Hello world example of deployment of a Simian Web App using fastapi, with API Key authentication 
+# Hello world example of deployment of a Simian Web App using fastapi, with API Key authentication
 # between Simian Portal and BAckend Server where the Python runs as FastAPI web service.
 # In Simian Portal configure back-end type `python_fastapi`.
 
 # Enable basic API Key based authentication to prevent anonymous access.
-API_KEY_AUTH_ENABLED = True
-# When API Key Authentication is enabled, it must be configured in Simian Portal and on the 
+API_KEY_AUTH_ENABLED = False
+# When API Key Authentication is enabled, it must be configured in Simian Portal and on the
 # Backend Server (where the Python code is deployed).
 # SIMIAN Portal: configure API Key header name and value in Simian Portal under cURL options:
 # Add CURLOPT_HTTPHEADER of type array and add name:value. E.g. Simian-Api-Key:abcdefg
@@ -31,12 +32,11 @@ app = FastAPI()
 if API_KEY_AUTH_ENABLED:
     # Basic security by requiring an api-key to be set in header of request
     header_scheme = APIKeyHeader(name=API_KEY_HEADER_NAME)
+
     def api_key_auth(api_key: str = Depends(header_scheme)):
         if not api_key == getenv(API_KEY_ENV_VAR_NAME):
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Forbidden"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
+
     dependencies = [Depends(api_key_auth)]
 else:
     dependencies = []
