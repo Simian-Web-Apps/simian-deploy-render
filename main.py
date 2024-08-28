@@ -39,24 +39,13 @@ def api_key_auth_enabled():
 # Provide basic authentication info, and list the available modules with corresponding routes at startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if api_key_auth_enabled():
-        print("SIMIAN:   Basic authentication disabled.")
-    else:
-        print("SIMIAN:   Basic authentication enabled.")
-        print(
-            """SIMIAN:   On backend server store api key in environment variable "SIMIAN_API_KEY"."""
-        )
-        print(
-            """SIMIAN:   On Simian Portal configuration set the header "Simian-Api-Key" to the api key."""
-        )
-
-    list_apps()
+    print_startup_info()
     yield
 
 
-# Create fastapi object:
-# 1. Without default temporary redirect (307) when misssing/extra trailing slash in route
-# 2. With lifespan to manage startup behavior
+# FastAPI:
+# Without default temporary redirect (307) when misssing/extra trailing slash in route
+# With lifespan to manage startup behavior
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
 # If API Key authentication is enabled add dependency
@@ -104,12 +93,14 @@ def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
         raise HTTPException(status_code=404, detail="Not found.")
 
 
+# Check if module (constructed from route) exists.
 def module_exists(apps_dir, simian_app_module) -> bool:
     return path.isfile(
         path.join(path.dirname(path.realpath(__file__)), apps_dir, simian_app_module + ".py")
     )
 
 
+# Print list of available apps with the corresponding route.
 def list_apps():
     simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
     print("SIMIAN:   The apps can be reached using the following routes:")
@@ -118,3 +109,18 @@ def list_apps():
         simian_app_slug = "/" + simian_app_module.replace("_", "-")
         simian_app_namespace = apps_dir + "." + simian_app_module
         print(f"SIMIAN:   {simian_app_namespace} : {simian_app_slug}")
+
+
+# Print info at startup of FastAPI
+def print_startup_info():
+    if api_key_auth_enabled():
+        print("SIMIAN:   Basic authentication disabled.")
+    else:
+        print("SIMIAN:   Basic authentication enabled.")
+        print(
+            """SIMIAN:   On backend server store api key in environment variable "SIMIAN_API_KEY"."""
+        )
+        print(
+            """SIMIAN:   On Simian Portal configuration set the header "Simian-Api-Key" to the api key."""
+        )
+    list_apps()
