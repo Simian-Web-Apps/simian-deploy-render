@@ -51,6 +51,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
 
+@app.get("/", dependencies=dependencies)
+def root_response() -> str:
+    return "OK"
+
+
 # The app is served on the module name path on backend server
 @app.post("/{simian_app_slug}", response_class=JSONResponse, dependencies=dependencies)
 def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
