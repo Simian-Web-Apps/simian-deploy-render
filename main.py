@@ -47,7 +47,7 @@ else:
 def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
     """Route requests to the Simian App code and return the response."""
     simian_app_slug_parts = simian_app_slug.split("/")
-    simian_app_slug_nr_parts = simian_app_slug_parts.len
+    simian_app_slug_nr_parts = len(simian_app_slug_parts)
     simian_app_route = simian_app_slug_parts[0]
     simian_app_module = simian_app_route.replace("-", "_")
     simian_app_module_exists = moduleExists(apps_dir, simian_app_module)
