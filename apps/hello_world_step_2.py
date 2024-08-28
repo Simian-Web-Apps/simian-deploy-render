@@ -39,6 +39,7 @@ def gui_init(meta_data: dict) -> dict:
     # Create a button.
     world_button = component.Button("buttonKey", form)
     world_button.label = "World!"
+    world_button.setEvent("WorldButtonPushed")
 
     return payload
 
