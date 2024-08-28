@@ -41,7 +41,6 @@ if API_KEY_AUTH_ENABLED:
 else:
     dependencies = []
 
-SIMIAN:   
 
 # List the available modules with corresponding routes at startup
 @asynccontextmanager
@@ -50,7 +49,9 @@ async def lifespan(app: FastAPI):
         print("SIMIAN:   Basic authentication disabled.")
     else:
         print("SIMIAN:   Basic authentication enabled.")
-        print(f"""SIMIAN:   On client set header "{API_KEY_HEADER_NAME}" to the api key configured in environment variable "{API_KEY_ENV_VAR_NAME}" on your render web service environment""")
+        print(
+            f"""SIMIAN:   On client set header "{API_KEY_HEADER_NAME}" to the api key configured in environment variable "{API_KEY_ENV_VAR_NAME}" on your render web service environment"""
+        )
     listApps()
     yield
 
