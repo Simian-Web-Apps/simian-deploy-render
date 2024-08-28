@@ -42,25 +42,11 @@ else:
     dependencies = []
 
 
-def create_endpoint(simian_app_namespace: str):
-    def endpoint(request_data: list = Body()) -> dict:
-        return entry_point_deploy(simian_app_namespace, request_data)
-
-    return endpoint
-
-
-# Loop over the .py files in ./apps/ assuming each is a simian app module
-simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
-for simian_app in simian_apps:
-    simian_app_module, _ = path.splitext(path.basename(simian_app))
-    simian_app_slug = "/" + simian_app_module.replace("_", "-")
+# The app is served on the module name path on backend server
+@app.post("/{simian_app_slug}", response_class=JSONResponse, dependencies=dependencies)
+def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
+    """Route requests to the Simian App code and return the response."""
+    simian_app_module = simian_app_slug.split("/")[0].replace("-", "_")
     simian_app_namespace = apps_dir + "." + simian_app_module
 
-    # See: https://stackoverflow.com/a/78113096 and https://stackoverflow.com/a/76526037
-    app.add_api_route(
-        simian_app_slug,
-        create_endpoint(simian_app_namespace),
-        methods=["POST"],
-        response_class=JSONResponse,
-        dependencies=dependencies,
-    )
+    return entry_point_deploy(simian_app_namespace, request_data)
