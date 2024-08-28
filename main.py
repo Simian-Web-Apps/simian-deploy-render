@@ -26,7 +26,7 @@ API_KEY_ENV_VAR_NAME = "SIMIAN_API_KEY"
 # folder next to this file containing simian app modules (and simian app modules only!)
 apps_dir = "apps"
 
-app = FastAPI()
+app = FastAPI(redirect_slashes=False)
 
 # If API Key authentication is enabled add dependency
 if API_KEY_AUTH_ENABLED:
