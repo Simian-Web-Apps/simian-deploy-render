@@ -46,7 +46,25 @@ else:
 @app.post("/{simian_app_slug}", response_class=JSONResponse, dependencies=dependencies)
 def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
     """Route requests to the Simian App code and return the response."""
-    simian_app_module = simian_app_slug.split("/")[0].replace("-", "_")
-    simian_app_namespace = apps_dir + "." + simian_app_module
+    simian_app_slug_parts = simian_app_slug.split("/")
+    simian_app_slug_nr_parts = simian_app_slug_parts.len
+    simian_app_route = simian_app_slug_parts[0]
+    simian_app_module = simian_app_route.replace("-", "_")
+    simian_app_module_exists = moduleExists(apps_dir, simian_app_module)
 
-    return entry_point_deploy(simian_app_namespace, request_data)
+    if simian_app_slug_nr_parts == 1 and simian_app_module_exists:
+        return entry_point_deploy(apps_dir + "." + simian_app_module, request_data)
+    elif (
+        simian_app_slug_nr_parts == 2
+        and simian_app_slug_parts[1] == ""
+        and simian_app_module_exists
+    ):
+        raise HTTPException(status_code=404, detail="""Not found, remove trailing "/".""")
+    else:
+        raise HTTPException(status_code=404, detail="Not found.")
+
+
+def moduleExists(apps_dir, simian_app_module) -> bool:
+    return path.isfile(
+        path.join(path.dirname(path.realpath(__file__)), apps_dir, simian_app_module + ".py")
+    )
