@@ -2,7 +2,7 @@ import glob
 from os import getenv
 from os import path
 
-from fastapi import Body, FastAPI, APIRouter, Depends, HTTPException, status
+from fastapi import Body, FastAPI, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 
@@ -27,7 +27,6 @@ API_KEY_ENV_VAR_NAME = "SIMIAN_API_KEY"
 apps_dir = "apps"
 
 app = FastAPI()
-router = APIRouter()
 
 # If API Key authentication is enabled add dependency
 if API_KEY_AUTH_ENABLED:
@@ -57,6 +56,7 @@ for simian_app in simian_apps:
     simian_app_slug = "/" + simian_app_module.replace("_", "-")
     simian_app_namespace = apps_dir + "." + simian_app_module
 
+    # See: https://stackoverflow.com/a/78113096 and https://stackoverflow.com/a/76526037
     app.add_api_route(
         simian_app_slug,
         create_endpoint(simian_app_namespace),

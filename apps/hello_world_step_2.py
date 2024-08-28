@@ -31,23 +31,26 @@ def gui_init(meta_data: dict) -> dict:
         },
     }
 
-    html_hello = component.HtmlElement("html_hello", form)
-    html_hello.content = f"Hello World - Step {hello_world_step}"
+    # Create a textfield.
+    hello_text = component.TextField("helloKey", form)
+    hello_text.label = "Enter first word"
+    hello_text.defaultValue = "Hello"
 
-    text_time = component.TextField("text_time", form)
-    text_time.placeholder = "time"
-
-    button_show_time = component.Button("button_show_server_time", form)
-    button_show_time.label = "Show Server Time"
-    button_show_time.event = "show_server_time"
+    # Create a button.
+    world_button = component.Button("buttonKey", form)
+    world_button.label = "World!"
 
     return payload
 
 
 def gui_event(meta_data: dict, payload: dict) -> dict:
-    if payload["event"] == "show_server_time":
-        server_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Process the events.
+    Form.eventHandler(WorldButtonPushed=say_hello)
+    callback = utils.getEventFunction(meta_data, payload)
+    return callback(meta_data, payload)
 
-        payload, _ = utils.setSubmissionData(payload, "text_time", server_time)
 
+def say_hello(meta_data: dict, payload: dict) -> dict:
+    # Print the "<helloKey> world!" string to the console.
+    print(utils.getSubmissionData(payload, "helloKey")[0] + " world!")
     return payload

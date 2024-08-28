@@ -30,8 +30,14 @@ def gui_init(meta_data: dict) -> dict:
         },
     }
 
-    html_hello = component.HtmlElement("html_hello", form)
-    html_hello.content = f"Hello World - Step {hello_world_step}"
+    # Create a textfield.
+    hello_text = component.TextField("helloKey", form)
+    hello_text.label = "Enter first word"
+    hello_text.defaultValue = "Hello"
+
+    # Create a button.
+    world_button = component.Button("buttonKey", form)
+    world_button.label = "World!"
 
     return payload
 
