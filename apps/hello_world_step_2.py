@@ -41,6 +41,12 @@ def gui_init(meta_data: dict) -> dict:
     world_button.label = "World!"
     world_button.setEvent("WorldButtonPushed")
 
+    # Create a textfield.
+    result_text = component.TextField("resultKey", form)
+    result_text.label = "The result"
+    result_text.placeholder = "Click button to display result ..."
+    result_text.disabled = True
+
     return payload
 
 
@@ -48,10 +54,13 @@ def gui_event(meta_data: dict, payload: dict) -> dict:
     # Process the events.
     Form.eventHandler(WorldButtonPushed=say_hello)
     callback = utils.getEventFunction(meta_data, payload)
+
     return callback(meta_data, payload)
 
 
 def say_hello(meta_data: dict, payload: dict) -> dict:
     # Print the "<helloKey> world!" string to the console.
-    print(utils.getSubmissionData(payload, "helloKey")[0] + " world!")
+    result_text = utils.getSubmissionData(payload, "helloKey")[0] + " world!"
+    utils.setSubmissionData(payload, "resultKey", result_text)
+
     return payload

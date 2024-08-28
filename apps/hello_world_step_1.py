@@ -38,6 +38,16 @@ def gui_init(meta_data: dict) -> dict:
     # Create a button.
     world_button = component.Button("buttonKey", form)
     world_button.label = "World!"
+    world_button.disabled = True
+    world_button.tooltip = (
+        "Button disabled because no event and corresponding callback defined yet."
+    )
+
+    # Create a textfield.
+    result_text = component.TextField("resultKey", form)
+    result_text.label = "The result"
+    result_text.placeholder = "Click button to display result ..."
+    result_text.disabled = True
 
     return payload
 
