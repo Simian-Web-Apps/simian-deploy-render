@@ -41,9 +41,16 @@ if API_KEY_AUTH_ENABLED:
 else:
     dependencies = []
 
+SIMIAN:   
 
+# List the available modules with corresponding routes at startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    if API_KEY_AUTH_ENABLED:
+        print("SIMIAN:   Basic authentication disabled.")
+    else:
+        print("SIMIAN:   Basic authentication enabled.")
+        print(f"""SIMIAN:   On client set header "{API_KEY_HEADER_NAME}" to the api key configured in environment variable "{API_KEY_ENV_VAR_NAME}" on your render web service environment""")
     listApps()
     yield
 
@@ -51,6 +58,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
 
+# Provide responese at startup
 @app.head("/", response_class=JSONResponse, dependencies=dependencies)
 @app.get("/", response_class=JSONResponse, dependencies=dependencies)
 def root_response() -> dict:
@@ -88,9 +96,9 @@ def moduleExists(apps_dir, simian_app_module) -> bool:
 
 def listApps():
     simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
-    print("The apps can be reached using the following routes:")
+    print("SIMIAN:   The apps can be reached using the following routes:")
     for simian_app in simian_apps:
         simian_app_module, _ = path.splitext(path.basename(simian_app))
         simian_app_slug = "/" + simian_app_module.replace("_", "-")
         simian_app_namespace = apps_dir + "." + simian_app_module
-        print(f"{simian_app_namespace} : {simian_app_slug}")
+        print(f"SIMIAN:   {simian_app_namespace} : {simian_app_slug}")
