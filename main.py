@@ -10,45 +10,44 @@ from fastapi.security import APIKeyHeader
 from simian.entrypoint import entry_point_deploy
 import apps  # noqa: F401
 
-# Hello world example of deployment of a Simian Web App using fastapi, with API Key authentication
-# between Simian Portal and BAckend Server where the Python runs as FastAPI web service.
-# In Simian Portal configure back-end type `python_fastapi`.
-
-# ================================ START USER CONFIGUREABLE =====================================
-
-# folder next to this file containing simian app modules (and simian app modules only!)
-apps_dir = "apps"
-
+# Hello world example of deployment of a Simian Web App using fastapi.
+# With optional API Key authentication between Simian Portal and Backend Server where the Python
+# Simian apps run as FastAPI web service. In Simian Portal configure back-end type `python_fastapi`.
+#
 # Enable basic API Key based authentication to prevent anonymous access.
-API_KEY_AUTH_ENABLED_VAR_NAME = "API_KEY_AUTH_ENABLED"
+# Backend server: set environment var "SIMIAN_API_KEY_AUTH_ENABLED" to "1" or "true" to enable
+#
 # When API Key Authentication is enabled, it must be configured in Simian Portal and on the
 # Backend Server (where the Python code is deployed).
-# SIMIAN Portal: configure API Key header name and value in Simian Portal under cURL options:
+#
+# SIMIAN Portal: configure "Simian-Api-Key" header in Simian Portal under cURL options:
 # Add CURLOPT_HTTPHEADER of type array and add name:value. E.g. Simian-Api-Key:abcdefg
-API_KEY_HEADER_NAME = "Simian-Api-Key"
-# Backend Server: Configure API Key environment variable, on many platforms labeled "secret".
-API_KEY_ENV_VAR_NAME = "SIMIAN_API_KEY"
+#
+# Backend Server: set environment variable "SIMIAN_API_KEY", on many platforms labeled "secret".
 
-# ================================= END USER CONFIGUREABLE ======================================
+# Folder next to this file containing simian app modules (and simian app modules only!)
+apps_dir = "apps"
 
-API_KEY_AUTH_ENABLED = getenv(API_KEY_AUTH_ENABLED_VAR_NAME, "False").lower() in (
-    "true",
-    "1",
-)
+
+def api_key_auth_enabled():
+    return getenv("SIMIAN_API_KEY_AUTH_ENABLED", "False").lower() in (
+        "true",
+        "1",
+    )
 
 
 # Provide basic authentication info, and list the available modules with corresponding routes at startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    if API_KEY_AUTH_ENABLED:
+    if api_key_auth_enabled():
         print("SIMIAN:   Basic authentication disabled.")
     else:
         print("SIMIAN:   Basic authentication enabled.")
         print(
-            f"""SIMIAN:   On render web service store api key in environment variable "{API_KEY_ENV_VAR_NAME}"."""
+            """SIMIAN:   On backend server store api key in environment variable "SIMIAN_API_KEY"."""
         )
         print(
-            f"""SIMIAN:   On Simian Portal configuration set the header "{API_KEY_HEADER_NAME}" to the api key."""
+            """SIMIAN:   On Simian Portal configuration set the header "Simian-Api-Key" to the api key."""
         )
 
     list_apps()
@@ -61,13 +60,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
 # If API Key authentication is enabled add dependency
-if API_KEY_AUTH_ENABLED:
+if api_key_auth_enabled():
     # Very basic security by requiring an api-key to be set in header of request
     # Not implemented here: API Key on server should be hashed (vs stored in clear text).
-    header_scheme = APIKeyHeader(name=API_KEY_HEADER_NAME)
+    header_scheme = APIKeyHeader(name="Simian-Api-Key")
 
     def api_key_auth(api_key: str = Depends(header_scheme)):
-        if not api_key == getenv(API_KEY_ENV_VAR_NAME):
+        if not api_key == getenv("SIMIAN_API_KEY"):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
 
     dependencies = [Depends(api_key_auth)]
@@ -75,7 +74,7 @@ else:
     dependencies = []
 
 
-# Provide root response at render webservice startup
+# Provide root response at webservice startup
 @app.head("/", response_class=JSONResponse, dependencies=dependencies)
 @app.get("/", response_class=JSONResponse, dependencies=dependencies)
 def root_response() -> dict:
