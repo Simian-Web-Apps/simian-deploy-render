@@ -1,6 +1,7 @@
 import glob
 from os import getenv
 from os import path
+from contextlib import asynccontextmanager
 
 from fastapi import Body, FastAPI, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
@@ -26,7 +27,6 @@ API_KEY_ENV_VAR_NAME = "SIMIAN_API_KEY"
 # folder next to this file containing simian app modules (and simian app modules only!)
 apps_dir = "apps"
 
-app = FastAPI(redirect_slashes=False)
 
 # If API Key authentication is enabled add dependency
 if API_KEY_AUTH_ENABLED:
@@ -40,6 +40,15 @@ if API_KEY_AUTH_ENABLED:
     dependencies = [Depends(api_key_auth)]
 else:
     dependencies = []
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    listApps()
+    yield
+
+
+app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
 
 # The app is served on the module name path on backend server
@@ -69,3 +78,13 @@ def moduleExists(apps_dir, simian_app_module) -> bool:
     return path.isfile(
         path.join(path.dirname(path.realpath(__file__)), apps_dir, simian_app_module + ".py")
     )
+
+
+def listApps():
+    simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
+    print("The apps can be reached using the following routes:")
+    for simian_app in simian_apps:
+        simian_app_module, _ = path.splitext(path.basename(simian_app))
+        simian_app_slug = "/" + simian_app_module.replace("_", "-")
+        simian_app_namespace = apps_dir + "." + simian_app_module
+        print(f"{simian_app_namespace} : {simian_app_slug}")
