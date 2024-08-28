@@ -51,9 +51,10 @@ async def lifespan(app: FastAPI):
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
 
-@app.get("/", dependencies=dependencies)
-def root_response() -> str:
-    return "OK"
+@app.head("/", response_class=JSONResponse, dependencies=dependencies)
+@app.get("/", response_class=JSONResponse, dependencies=dependencies)
+def root_response() -> dict:
+    return {"status": "ok"}
 
 
 # The app is served on the module name path on backend server
