@@ -1,11 +1,11 @@
 # Deploy your Python Simian Web App on Render
 
 After developing and testing your Simian Web App locally, deployment to the web involves two main steps:
+1. Deploying your Simian Web App Python code as a web service on a(ny) backend
 1. Publishing the app to your audience on Simian Portal
-2. Deploying your Simian Web App Python code as a web service on a(ny) backend
 
 For evaluation purposes, a shared Simian Evaluation Portal is readily available.  
-For Python deployment, [Render](https://render.com) offers convenient and free hosting Python code as a web service, directly from GitHub.
+For Python deployment, [Render](https://render.com) offers _**convenient & free**_ hosting Python code as a web service, _**directly from GitHub**_.
 
 You can publish directly from this read-only GitHub repository to your own render.com web service.  
 Alternatively fork this project on GitHub, and changes pushed to your GitHub repository will automatically be published to your onrender.com web service.
