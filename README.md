@@ -3,8 +3,8 @@
 Deployment of a Simian Web App involves 4 main steps:
 1. Get the code (this repo)
 2. Deploy your Simian Web App Python code as a web service on a(ny) backend.  
-   [Render](https://render.com) which offers _**convenient & free**_ hosting Python code as a web service, _**directly from GitHub**_.   
-   This GitHub project automates deployment of Python based Simian Web Apps on  Render.
+   [Render](https://render.com) offers _**convenient & free**_ hosting Python code as a web service, _**directly from GitHub**_.   
+   This GitHub project automates deployment of Python based Simian Web Apps on Render.
    Setting up deployment from GitHub to Render can be done with the push of a button.  
    Updates to your code pushed to GitHub will be automatically deployed to your onrender.com web service.  
    > This way Simian Web App functionality is exposed as a web service.  
@@ -31,8 +31,8 @@ The route will be the base name of your module `.py` file with underscores (`_`)
 
 The endpoint to a module called `my_first_simian_app.py` stored in the `apps` folder would be `https://YOUR_SUBDOMAIN.onrender.com/my-first-simian-app`
 
-# Deploy to FastAPI web service on Render
-To get started you can deploy directly from this read-only GitHub repository to your own render.com web service.  
+# Deploy to web service on Render
+To get started you can deploy directly from this read-only GitHub repository to your own render.com web service.  Just click the "Deploy to Render" button below.
 
 > If you are new to Render you will need to create an account.
 
