@@ -103,7 +103,7 @@ Publishing your Simian Web App:
      (Route to module is module file name without `.py`, and with `_` replaced by `-`.)
    - Optionally, when API Key authentication is enabled on the onrender webservice, `API Key` to the same value configured in the `SIMIAN_API_KEY` environment varible on the onrender.com web service.
 
-> Simian Portal supports app sharing and access management, but app access on [Simian Evaluation Portal](https://evaluate.simiansuite.com/) is restricted to yourself only and solely serves evaluation purposes.  
+> Simian Portal supports app sharing and access management. Access to your app on [Simian Evaluation Portal](https://evaluate.simiansuite.com/) is restricted to yourself only, and solely serves evaluation purposes.  
 > Contact [simiansuite.com](https://simiansuite.com/contact-us/) for Simian Portal cloud, and on-premises options.
 
 > Simian Portal works with a range of backend platforms from docker to Azure, and other cloud providers.
