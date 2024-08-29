@@ -6,17 +6,12 @@ Deployment of a Simian Web App involves 4 main steps:
    [Render](https://render.com) which offers _**convenient & free**_ hosting Python code as a web service, _**directly from GitHub**_.   
    This GitHub project automates deployment of Python based Simian Web Apps on  Render.
    Setting up deployment from GitHub to Render can be done with the push of a button.  
-   Updates to your code pushed to GitHub will be automatically deployed to your onrender.com web service.
+   Updates to your code pushed to GitHub will be automatically deployed to your onrender.com web service.  
+   > This way Simian Web App functionality is exposed as a web service.  
+   > Source code is under your control and not shared with simiansuite.com.
 3. Publish the app on Simian Portal  
    For evaluation purposes, a shared Simian Evaluation Portal where you can configure your own Simian Web App is readily available.  
 4. Use your app, live on the web
-
-To get started you can deploy the python code directly from this read-only GitHub repository to your own render.com web service.  
-Alternatively you can fork this project on GitHub, and changes pushed to your GitHub repository will automatically be published to your onrender.com web service.
-
-> _**If you fork this repository (or use it as a template), you should modify the github project url in this `readme.md` file in two locations to point to your GitHub repository:**_
-> 1. "Manual steps" step 1
-> 2. "Deploy to Render" button
 
 # Repository contents
 - Render build information is provided in `render.yaml`.
@@ -32,14 +27,20 @@ The endpoint to this is example is `https://YOUR_SUBDOMAIN.onrender.com/hello-wo
 Additional Simian Web App(s) by adding your Simian Web App module to the `apps` directory.  
 
 It is recommended to name your module in lower case chracters and underscores when needed.  
-The route to your module will be the base name of your module `.py` file with underscores (`_`) replaced by dashes (`-`).
+The route will be the base name of your module `.py` file with underscores (`_`) replaced by dashes (`-`).
 
 The endpoint to a module called `my_first_simian_app.py` stored in the `apps` folder would be `https://YOUR_SUBDOMAIN.onrender.com/my-first-simian-app`
 
 # Deploy to FastAPI web service on Render
-Use this repo as a Simian Web App template to deploy a Python [FastAPI](https://fastapi.tiangolo.com) web service on Render.
+To get started you can deploy directly from this read-only GitHub repository to your own render.com web service.  
 
 > If you are new to Render you will need to create an account.
+
+Alternatively, you can fork this project on GitHub and deploy to render from there. Changes pushed to your GitHub repository will then automatically be deployed to your onrender.com web service.
+
+> _**If you fork this repository (or use it as a template), you should modify the github project url in this `readme.md` file in two locations to point to your GitHub repository:**_
+> 1. "Manual steps" step 1
+> 2. "Deploy to Render" button
 
 ## Simply click
 
