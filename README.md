@@ -38,15 +38,15 @@ To get started you can deploy directly from this read-only GitHub repository to 
 
 Alternatively, you can fork this project on GitHub and deploy to render from there. Changes pushed to your GitHub repository will then automatically be deployed to your onrender.com web service.
 
-> _**If you fork this repository (or use it as a template), you should modify the github project url in this `readme.md` file in two locations to point to your GitHub repository:**_
+> _**If you fork this repository (or use it as a template), you should modify the github project url in this `README.md` file in two locations to point to your GitHub repository:**_
 > 1. "Manual steps" step 1
 > 2. "Deploy to Render" button
 
-## Simply click
+## Click to deploy
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=(https://github.com/Simian-Web-Apps/simian-deploy-render/))
 
-## API Key authentication
+## Optional: API Key
 - API key authentication (very basic, not for production usage) is configured by means of environment variables for the onrender.com web service:  
   - To enable set `API_KEY_AUTH_ENABLED` to `1`.  
     When this variable does not exist, or is set to `0` api key authentication is disabled.
@@ -73,10 +73,10 @@ Without authentication:
 curl --connect-timeout 300 https://YOUR_SUBDOMAIN.onrender.com/
 ```  
 
-## Manual steps for deployment
+## Manual deployment
 See https://render.com/docs/deploy-fastapi or follow the steps below:
 
-1. You may use this repository directly or [create your own repository from this template](https://github.com/Rolf-MP/simian-render/generate) if you'd like to customize the code.
+1. You may use this repository directly or [create your own repository from this template](https://github.com/Simian-Web-Apps/simian-deploy-render/generate) if you'd like to customize the code.
 2. Create a new Web Service on Render.
 3. Specify the URL to your new repository or this repository.
 4. Render will automatically detect that you are deploying a Python service and use `pip` to download the dependencies.
@@ -92,7 +92,7 @@ See https://render.com/docs/deploy-fastapi or follow the steps below:
 Publishing your Simian Web App:
 1. Sign up at [Simian Evaluation Portal](https://evaluate.simiansuite.com/).  
    (Your app will only be accessible to you.)   
-1. From your Render deployment (per steps [below](#render-fastapi-web-service-as-simian-web-app-backend)), take note of:  
+1. From your Render deployment, take note of:  
    The _subdomain_ of your backend deployment under _.onrender.com_  
    The _API Key_ (if enabled on the onrender.com webservice)  
 1. In [Simian Evaluation Portal](https://evaluate.simiansuite.com/), configure and publish app [here](https://evaluate.simiansuite.com/configure_my_app/).  
