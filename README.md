@@ -44,7 +44,7 @@ Alternatively, you can fork this project on GitHub and deploy to render from the
 
 ## Click to deploy
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=(https://github.com/Simian-Web-Apps/simian-deploy-render/))
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Simian-Web-Apps/simian-deploy-render/)
 
 ## Optional: API Key
 API key authentication (very basic, not for production usage) is configured by means of environment variables for the onrender.com web service:  
