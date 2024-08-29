@@ -30,7 +30,7 @@ import apps  # noqa: F401
 apps_dir = "apps"
 
 # Hard-code logging level to INFO for now
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:SIMIAN: %(message)s")
 
 
 def api_key_auth_enabled():
@@ -107,24 +107,24 @@ def module_exists(apps_dir, simian_app_module) -> bool:
 # log list of available apps with the corresponding route.
 def list_apps():
     simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
-    print("SIMIAN:   The apps can be reached using the following routes:")
+    logging.info("The apps can be reached using the following routes:")
     for simian_app in simian_apps:
         simian_app_module, _ = path.splitext(path.basename(simian_app))
         simian_app_slug = "/" + simian_app_module.replace("_", "-")
         simian_app_namespace = apps_dir + "." + simian_app_module
-        logging.info(f"SIMIAN:   {simian_app_namespace} : {simian_app_slug}")
+        logging.info(f"{simian_app_namespace} : {simian_app_slug}")
 
 
 # log info at startup of FastAPI
 def log_startup_info():
     if api_key_auth_enabled():
-        logging.info("SIMIAN:   Basic authentication disabled.")
+        logging.info("Basic authentication disabled.")
     else:
-        logging.info("SIMIAN:   Basic authentication enabled.")
+        logging.info("Basic authentication enabled.")
         logging.info(
-            """SIMIAN:   On backend server store api key in environment variable "SIMIAN_API_KEY"."""
+            """On backend server store api key in environment variable "SIMIAN_API_KEY"."""
         )
         logging.info(
-            """SIMIAN:   On Simian Portal configuration set the header "Simian-Api-Key" to the api key."""
+            """On Simian Portal configuration set the header "Simian-Api-Key" to the api key."""
         )
     list_apps()
