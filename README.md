@@ -13,7 +13,7 @@ Deployment of a Simian Web App involves 4 main steps:
    For evaluation purposes, a shared Simian Evaluation Portal where you can configure your own Simian Web App is readily available.  
 4. Use your app, live on the web
 
-# Repository contents
+# 1. The code - repository contents
 - Render build information is provided in `render.yaml`.
 - Python package installation instructions are provided through `requirements.txt`.
 - FastAPI routing and generation of Simian specific startup information in logs is done in `main.py`.
@@ -31,7 +31,7 @@ The route will be the base name of your module `.py` file with underscores (`_`)
 
 The endpoint to a module called `my_first_simian_app.py` stored in the `apps` folder would be `https://YOUR_SUBDOMAIN.onrender.com/my-first-simian-app`
 
-# Deploy to web service on Render
+# 2. Deploy - to web service on Render
 To get started you can deploy directly from this read-only GitHub repository to your own render.com web service.  Just click the "Deploy to Render" button below.
 
 > If you are new to Render you will need to create an account.
@@ -88,7 +88,7 @@ See https://render.com/docs/deploy-fastapi or follow the steps below:
 
 6. Click Create Web Service.
 
-# Simian Evaluation Portal
+# 3. Publish - on Simian Evaluation Portal
 Publishing your Simian Web App:
 1. Sign up at [Simian Evaluation Portal](https://evaluate.simiansuite.com/).  
    (On the evaluation portal your app will only be accessible to you.)   
@@ -102,15 +102,19 @@ Publishing your Simian Web App:
    - `Route` to the route to the module under the `apps` directory that you want to deploy: `hello-world` for `hello_world.py`.
      (Route to module is module file name without `.py`, and with `_` replaced by `-`.)
    - Optionally, when API Key authentication is enabled on the onrender webservice, `API Key` to the same value configured in the `SIMIAN_API_KEY` environment varible on the onrender.com web service.
-1. Start your app via [Simian Evaluation Portal](https://evaluate.simiansuite.com/).  
-   (If you want to bookmark the app for direct access, make sure the bookmark does not contain the `?tab_uuid=...` because that `tab_uuid` identifies a specific instance of the app which is no longer valid after closing the app.)
-
 
 > Simian Portal supports app sharing and access management, but app access on [Simian Evaluation Portal](https://evaluate.simiansuite.com/) is restricted to yourself only and solely serves evaluation purposes.  
 > Contact [simiansuite.com](https://simiansuite.com/contact-us/) for Simian Portal cloud, and on-premises options.
 
 > Simian Portal works with a range of backend platforms from docker to Azure, and other cloud providers.
 > For evaluation purposes render.com has been chosen because of its convenient deployment path from code on GitHub to a live FastAPI web service, its free entry offering and paid upgrade path, and last but not least because your code remains under your control.
+
+# 4. Use the app
+Start your app via [Simian Evaluation Portal](https://evaluate.simiansuite.com/).  
+
+You can bookmark your app URL for direct access. 
+
+> The bookmark URL must not contain the `?tab_uuid=...` parameter because `tab_uuid` identifies a specific instance of the app which is cleared when closing the app.
 
 # Thanks
 Gratefully forked from [Render Examples - FastAPI](https://github.com/render-examples/fastapi) who thanks [Harish](https://harishgarg.com) for the [inspiration to create a FastAPI quickstart for Render](https://twitter.com/harishkgarg/status/1435084018677010434) and for some sample code!
