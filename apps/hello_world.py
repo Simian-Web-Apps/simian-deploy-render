@@ -1,16 +1,14 @@
-from simian.gui import Form, component, component_properties, utils
-from datetime import datetime
+from simian.gui import Form, component, utils
 
-examples_url = "https://github.com/Simian-Web-Apps/simian-deploy-render"
-hello_world_step = 2
+github_url = "https://github.com/Simian-Web-Apps/simian-deploy-render"
 
 # Run this file locally
 if __name__ == "__main__":
     import simian.local
 
     simian.local.Uiformio(
-        f"hello_world_step_{hello_world_step}",
-        window_title=f"Simian: Hello World - Step {hello_world_step} !",
+        "hello_world",
+        window_title="Simian: Hello World!",
     )
 
 
@@ -25,8 +23,8 @@ def gui_init(meta_data: dict) -> dict:
         "form": form,
         "navbar": {
             "title": (
-                f'<a class="text-white" href="{examples_url}" target="_blank">'
-                f'<i class="fa fa-github"></i></a>&nbsp;Hello World Step {hello_world_step} - from Simian!'
+                f'<a class="text-white" href="{github_url}" target="_blank">',
+                '<i class="fa fa-github"></i></a>&nbsp;Hello World - from Simian!',
             )
         },
     }
