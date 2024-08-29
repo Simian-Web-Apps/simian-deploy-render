@@ -1,13 +1,20 @@
-# Deploy your Simian Web App
+# Deploy your Python Simian Web App on Render
 
 After developing and testing your Simian Web App locally, deployment to the web involves two main steps:
 1. Publishing the app to your audience on Simian Portal
 2. Deploying your Simian Web App Python code as a web service on a(ny) backend
 
 For evaluation purposes, a shared Simian Evaluation Portal is readily available.  
-For deployment, [Render](https://render.com) offers convenient and free hosting Python code as a web service, directly from GitHub.
+For Python deployment, [Render](https://render.com) offers convenient and free hosting Python code as a web service, directly from GitHub.
 
-# Exammple app & adding your own
+You can publish directly from this read-only GitHub repository to your own render.com web service.  
+Alternatively fork this project on GitHub, and changes pushed to your GitHub repository will automatically be published to your onrender.com web service.
+
+> _**If you fork this repository, you should modify the github project url in this `readme.md` file in two locations to point to your GitHub repository:**_
+> 1. "Manual steps" step 1
+> 2. "Deploy to Render" button
+   
+# Example app & adding your own
 A simple Simian Web App `hello-world.py` example is included in this repository in the `apps` directory.  
 The endpoint to this is example is `https://YOUR_SUBDOMAIN.onrender.com/hello-world`
 
@@ -48,8 +55,6 @@ Use this repo as a Simian Web App template to deploy a Python [FastAPI](https://
   - If api key authentication is enabled, `SIMIAN_API_KEY` must be set to your API Key (lower case letters and numbers only).
   
   ![alt text](readme-images/image.png)
-
-_**If you fork this repository, you should modify the github project url in this `readme.md` both under "Manual steps" step 1, and under "Or simply click" the "Deploy to Render" button to point to your GitHub repository.**_
 
 ## Render free plan & web service spin-down
 The free individual offering from render.com does spin down web services after some period of inactivity (15 minutes at the time of writing).
