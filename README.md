@@ -23,6 +23,8 @@ Deployment of a Simian Web App involves 4 main steps:
 A basic Simian Web App `hello-world.py` example is included in this repository in the `apps` directory.  
 The endpoint to this is example is `https://YOUR_SUBDOMAIN.onrender.com/hello-world`
 
+![alt text](readme-images/hello-world.png)
+
 ## Add your own app(s)
 Additional Simian Web App(s) by adding your Simian Web App module to the `apps` directory.  
 
@@ -46,13 +48,25 @@ Alternatively, you can fork this project on GitHub and deploy to render from the
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Simian-Web-Apps/simian-deploy-render/)
 
+- Sign in
+- Render will automatically pick up which repo to deploy
+- Enter a unique Blueprint Name and click "Deploy BluePrint" button.  
+  ![alt text](readme-images/render-deploy-blueprint.png)
+- Render will Sync with your GitHub repository and create the web service  
+  ![alt text](readme-images/render-deploy-working.png)
+- Your Render Dashboard now lists the new web service
+- Navigate to the web-service and take not eof your .onrender.com subdomain (highlighted below)  
+  ![alt text](readme-images/render-webservice-subdomain.png)
+
+
+
 ## Optional: API Key
 API key authentication (very basic, not for production usage) is configured by means of environment variables for the onrender.com web service:  
 - To enable set `API_KEY_AUTH_ENABLED` to `1`.  
   When this variable does not exist, or is set to `0` api key authentication is disabled.
 - If api key authentication is enabled, `SIMIAN_API_KEY` must be set to your API Key (lower case letters and numbers only).
   
-![alt text](readme-images/image.png)
+![alt text](readme-images/render-env-vars.png)
 
 ## Render free plan & web service spin-down
 The free individual offering from render.com does spin down web services after some period of inactivity (15 minutes at the time of writing).
