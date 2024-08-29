@@ -38,7 +38,7 @@ To get started you can deploy directly from this read-only GitHub repository to 
 
 Alternatively, you can fork this project on GitHub and deploy to render from there. Changes pushed to your GitHub repository will then automatically be deployed to your onrender.com web service.
 
-> _**If you fork this repository (or use it as a template), you should modify the github project url in this `README.md` file in two locations to point to your GitHub repository:**_
+> When forking or replicating this repository, change the GitHub url in `README.md` to point to the new GitHub project (2 locations):  
 > 1. "Manual steps" step 1
 > 2. "Deploy to Render" button
 
