@@ -1,4 +1,5 @@
 import glob
+import logging
 from os import getenv
 from os import path
 from contextlib import asynccontextmanager
@@ -28,6 +29,9 @@ import apps  # noqa: F401
 # Folder next to this file containing simian app modules (and simian app modules only!)
 apps_dir = "apps"
 
+# Hard-code logging level to INFO for now
+logging.basicConfig(level=logging.INFO)
+
 
 def api_key_auth_enabled():
     return getenv("SIMIAN_API_KEY_AUTH_ENABLED", "False").lower() in (
@@ -39,7 +43,7 @@ def api_key_auth_enabled():
 # Provide basic authentication info, and list the available modules with corresponding routes at startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print_startup_info()
+    log_startup_info()
     yield
 
 
@@ -100,7 +104,7 @@ def module_exists(apps_dir, simian_app_module) -> bool:
     )
 
 
-# Print list of available apps with the corresponding route.
+# log list of available apps with the corresponding route.
 def list_apps():
     simian_apps = glob.glob(path.join(path.dirname(path.realpath(__file__)), apps_dir, "*.py"))
     print("SIMIAN:   The apps can be reached using the following routes:")
@@ -108,19 +112,19 @@ def list_apps():
         simian_app_module, _ = path.splitext(path.basename(simian_app))
         simian_app_slug = "/" + simian_app_module.replace("_", "-")
         simian_app_namespace = apps_dir + "." + simian_app_module
-        print(f"SIMIAN:   {simian_app_namespace} : {simian_app_slug}")
+        logging.info(f"SIMIAN:   {simian_app_namespace} : {simian_app_slug}")
 
 
-# Print info at startup of FastAPI
-def print_startup_info():
+# log info at startup of FastAPI
+def log_startup_info():
     if api_key_auth_enabled():
-        print("SIMIAN:   Basic authentication disabled.")
+        logging.info("SIMIAN:   Basic authentication disabled.")
     else:
-        print("SIMIAN:   Basic authentication enabled.")
-        print(
+        logging.info("SIMIAN:   Basic authentication enabled.")
+        logging.info(
             """SIMIAN:   On backend server store api key in environment variable "SIMIAN_API_KEY"."""
         )
-        print(
+        logging.info(
             """SIMIAN:   On Simian Portal configuration set the header "Simian-Api-Key" to the api key."""
         )
     list_apps()
