@@ -23,8 +23,7 @@ def gui_init(meta_data: dict) -> dict:
         "form": form,
         "navbar": {
             "title": (
-                f'<a class="text-white" href="{github_url}" target="_blank">',
-                '<i class="fa fa-github"></i></a>&nbsp;Hello World - from Simian!',
+                f'<a class="text-white" href="{github_url}" target="_blank"><i class="fa fa-github"></i></a> Hello World - from Simian!'
             )
         },
     }
