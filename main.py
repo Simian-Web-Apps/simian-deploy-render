@@ -78,7 +78,6 @@ def root_response() -> dict:
 @app.post("/{simian_app_slug}", response_class=JSONResponse, dependencies=dependencies)
 def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
     """Route requests to the Simian App code and return the response."""
-    print(simian_app_slug)
     simian_app_slug_parts = simian_app_slug.split("/")
     simian_app_slug_nr_parts = len(simian_app_slug_parts)
     simian_app_route = simian_app_slug_parts[0]
