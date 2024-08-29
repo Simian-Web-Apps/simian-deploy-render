@@ -47,12 +47,12 @@ Alternatively, you can fork this project on GitHub and deploy to render from the
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=(https://github.com/Simian-Web-Apps/simian-deploy-render/))
 
 ## Optional: API Key
-- API key authentication (very basic, not for production usage) is configured by means of environment variables for the onrender.com web service:  
-  - To enable set `API_KEY_AUTH_ENABLED` to `1`.  
-    When this variable does not exist, or is set to `0` api key authentication is disabled.
-  - If api key authentication is enabled, `SIMIAN_API_KEY` must be set to your API Key (lower case letters and numbers only).
+API key authentication (very basic, not for production usage) is configured by means of environment variables for the onrender.com web service:  
+- To enable set `API_KEY_AUTH_ENABLED` to `1`.  
+  When this variable does not exist, or is set to `0` api key authentication is disabled.
+- If api key authentication is enabled, `SIMIAN_API_KEY` must be set to your API Key (lower case letters and numbers only).
   
-  ![alt text](readme-images/image.png)
+![alt text](readme-images/image.png)
 
 ## Render free plan & web service spin-down
 The free individual offering from render.com does spin down web services after some period of inactivity (15 minutes at the time of writing).
@@ -91,10 +91,10 @@ See https://render.com/docs/deploy-fastapi or follow the steps below:
 # Simian Evaluation Portal
 Publishing your Simian Web App:
 1. Sign up at [Simian Evaluation Portal](https://evaluate.simiansuite.com/).  
-   (Your app will only be accessible to you.)   
+   (On the evaluation portal your app will only be accessible to you.)   
 1. From your Render deployment, take note of:  
    The _subdomain_ of your backend deployment under _.onrender.com_  
-   The _API Key_ (if enabled on the onrender.com webservice)  
+   The _API Key_ (if enabled on the onrender.com web service)  
 1. In [Simian Evaluation Portal](https://evaluate.simiansuite.com/), configure and publish app [here](https://evaluate.simiansuite.com/configure_my_app/).  
    To configure the included `hello_world.py` app, set:
    - `Subdomain` to the subdomain of your `onrender.com web` service.  
@@ -105,11 +105,12 @@ Publishing your Simian Web App:
 1. Start your app via [Simian Evaluation Portal](https://evaluate.simiansuite.com/).  
    (If you want to bookmark the app for direct access, make sure the bookmark does not contain the `?tab_uuid=...` because that `tab_uuid` identifies a specific instance of the app which is no longer valid after closing the app.)
 
-Notes:  
-1. Simian Portal supports app sharing and access management, but app access on [Simian Evaluation Portal](https://evaluate.simiansuite.com/) is restricted to yourself only and solely serves evaluation purposes.  
-   Contact [simiansuite.com](https://simiansuite.com/contact-us/) for Simian Portal cloud, and on-premises options.
-1. Simian Portal works with a range of backend platforms from docker to Azure, and other cloud providers.
-   For evaluation purposes render.com has been chosen because of its convenient deployment path from code on GitHub to a live FastAPI web service, its free entry offering and paid upgrade path, and last but not least because your code remains under your control.
+
+> Simian Portal supports app sharing and access management, but app access on [Simian Evaluation Portal](https://evaluate.simiansuite.com/) is restricted to yourself only and solely serves evaluation purposes.  
+> Contact [simiansuite.com](https://simiansuite.com/contact-us/) for Simian Portal cloud, and on-premises options.
+
+> Simian Portal works with a range of backend platforms from docker to Azure, and other cloud providers.
+> For evaluation purposes render.com has been chosen because of its convenient deployment path from code on GitHub to a live FastAPI web service, its free entry offering and paid upgrade path, and last but not least because your code remains under your control.
 
 # Thanks
 Gratefully forked from [Render Examples - FastAPI](https://github.com/render-examples/fastapi) who thanks [Harish](https://harishgarg.com) for the [inspiration to create a FastAPI quickstart for Render](https://twitter.com/harishkgarg/status/1435084018677010434) and for some sample code!
