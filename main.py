@@ -52,30 +52,27 @@ async def lifespan(app: FastAPI):
 # With lifespan to manage startup behavior
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
-# If API Key authentication is enabled add dependency
-if api_key_auth_enabled():
-    # Very basic security by requiring an api-key to be set in header of request
-    # Not implemented here: API Key on server should be hashed (vs stored in clear text).
-    header_scheme = APIKeyHeader(name="Simian-Api-Key")
+async def check_api_key():
+    # If API Key authentication is enabled add dependency
+    if api_key_auth_enabled():
+        # Very basic security by requiring an api-key to be set in header of request
+        # Not implemented here: API Key on server should be hashed (vs stored in clear text).
+        header_scheme = APIKeyHeader(name="Simian-Api-Key")
 
-    def api_key_auth(api_key: str = Depends(header_scheme)):
-        if not api_key == getenv("SIMIAN_API_KEY"):
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
-
-    dependencies = [Depends(api_key_auth)]
-else:
-    dependencies = []
+        def api_key_auth(api_key: str = Depends(header_scheme)):
+            if not api_key == getenv("SIMIAN_API_KEY"):
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
 
 
 # Provide root response at webservice startup
-@app.head("/", response_class=JSONResponse, dependencies=dependencies)
-@app.get("/", response_class=JSONResponse, dependencies=dependencies)
+@app.head("/", response_class=JSONResponse, dependencies=[Depends(check_api_key)])
+@app.get("/", response_class=JSONResponse, dependencies=[Depends(check_api_key)])
 def root_response() -> dict:
     return {"status": "ok"}
 
 
 # The app is served on the module name path on backend server
-@app.post("/{simian_app_slug}", response_class=JSONResponse, dependencies=dependencies)
+@app.post("/{simian_app_slug}", response_class=JSONResponse, dependencies=[Depends(check_api_key)])
 def route_app_requests(simian_app_slug, request_data: list = Body()) -> dict:
     """Route requests to the Simian App code and return the response."""
     simian_app_slug_parts = simian_app_slug.split("/")
