@@ -57,18 +57,9 @@ header_scheme = APIKeyHeader(name="Simian-Api-Key", auto_error = False)
 async def check_api_key(api_key: str = Depends(header_scheme)):
     # Very basic security by requiring an api-key to be set in header of request if api key auth enabled
     # Not implemented here: API Key on server should be hashed (vs stored in clear text).
-    logging.info('Checking api key.')
-        
     if api_key_auth_enabled():
-        logging.info('Auth: enabled.')
         if api_key != getenv("SIMIAN_API_KEY"):
-            logging.info('API key: no match.')
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
-        else:
-            logging.info('API key" match.')
-    else:
-        logging.info('Auth: disabled.')
-        
 
 
 # Provide root response at webservice startup
@@ -121,9 +112,9 @@ def list_apps():
 # log info at startup of FastAPI
 def log_startup_info():
     if api_key_auth_enabled():
-        logging.info("Basic authentication disabled.")
-    else:
         logging.info("Basic authentication enabled.")
+    else:
+        logging.info("Basic authentication disabled.")
         logging.info(
             """On backend server store api key in environment variable "SIMIAN_API_KEY"."""
         )
