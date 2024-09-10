@@ -52,16 +52,14 @@ async def lifespan(app: FastAPI):
 # With lifespan to manage startup behavior
 app = FastAPI(redirect_slashes=False, lifespan=lifespan)
 
-async def check_api_key():
-    # If API Key authentication is enabled add dependency
-    if api_key_auth_enabled():
-        # Very basic security by requiring an api-key to be set in header of request
-        # Not implemented here: API Key on server should be hashed (vs stored in clear text).
-        header_scheme = APIKeyHeader(name="Simian-Api-Key")
+header_scheme = APIKeyHeader(name="Simian-Api-Key")
 
-        def api_key_auth(api_key: str = Depends(header_scheme)):
-            if not api_key == getenv("SIMIAN_API_KEY"):
-                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
+async def check_api_key(api_key: str = Depends(header_scheme)):
+    # Very basic security by requiring an api-key to be set in header of request if api key auth enabled
+    # Not implemented here: API Key on server should be hashed (vs stored in clear text).
+    if api_key_auth_enabled():
+        if not api_key == getenv("SIMIAN_API_KEY"):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Forbidden")
 
 
 # Provide root response at webservice startup
